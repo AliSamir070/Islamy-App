@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/local_provider.dart';
 import '../../shared/components/styles/styles.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class QuranViewScreen extends StatefulWidget {
   static String route = "Quran_view";
 
@@ -14,9 +16,11 @@ class _QuranViewScreenState extends State<QuranViewScreen> {
   String quranTxt = "";
   StringBuffer viewedQuran = StringBuffer();
   List<String> quranLines = [];
+  late LocaleProvider provider;
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     QuranViewArguments arguments = ModalRoute.of(context)!.settings.arguments as QuranViewArguments;
     double heightOfScreen = MediaQuery.of(context).size.height;
     double widthOfScreen = MediaQuery.of(context).size.width;
@@ -27,26 +31,21 @@ class _QuranViewScreenState extends State<QuranViewScreen> {
           width: double.infinity,
           fit: BoxFit.fill,
           image: AssetImage(
-              'assets/images/background.png'
+              provider.mode==ThemeMode.light?'assets/images/background.png':'assets/images/darkback.png'
           ),
 
         ),
         Scaffold(
           appBar: AppBar(
             title: Text(
-              'Islamy',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30
-              ),
+              '${AppLocalizations.of(context)?.title}',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
-            iconTheme: IconThemeData(
-              color: Colors.black
-            ),
+            iconTheme: Theme.of(context).appBarTheme.iconTheme,
+            actionsIconTheme: Theme.of(context).appBarTheme.actionsIconTheme,
           ),
           backgroundColor: Colors.transparent,
           body:quranLines.isEmpty?Center(child: CircularProgressIndicator()): Column(
@@ -81,7 +80,7 @@ class _QuranViewScreenState extends State<QuranViewScreen> {
                         ),
                       ),
                       Container(
-                        color: AppStyle.baseColor,
+                        color: AppStyle.lightbaseColor,
                         margin: EdgeInsets.symmetric(vertical: heightOfScreen*0.02),
                         child: SizedBox(
                           height: 3,

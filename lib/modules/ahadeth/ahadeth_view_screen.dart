@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:islamy_app/providers/local_provider.dart';
 import 'package:islamy_app/shared/components/styles/styles.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 class AhadethViewScreen extends StatelessWidget {
   static String route = "Ahadeth_view";
+  late LocaleProvider provider;
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     AhadethArguments arguments = ModalRoute.of(context)!.settings.arguments as AhadethArguments;
     double heightOfScreen = MediaQuery.of(context).size.height;
     double widthOfScreen = MediaQuery.of(context).size.width;
@@ -14,26 +18,21 @@ class AhadethViewScreen extends StatelessWidget {
             width: double.infinity,
             fit: BoxFit.fill,
             image: AssetImage(
-                'assets/images/background.png'
+                provider.mode==ThemeMode.light?'assets/images/background.png':'assets/images/darkback.png'
             ),
 
           ),
           Scaffold(
             appBar: AppBar(
               title: Text(
-                'Islamy',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30
-                ),
+                '${AppLocalizations.of(context)?.title}',
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               centerTitle: true,
               backgroundColor: Colors.transparent,
               elevation: 0,
-              iconTheme: IconThemeData(
-                  color: Colors.black
-              ),
+              iconTheme: Theme.of(context).appBarTheme.iconTheme,
+              actionsIconTheme: Theme.of(context).appBarTheme.actionsIconTheme,
             ),
             backgroundColor: Colors.transparent,
             body:Column(
@@ -65,7 +64,7 @@ class AhadethViewScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        color: AppStyle.baseColor,
+                        color: AppStyle.lightbaseColor,
                         margin: EdgeInsets.symmetric(vertical: heightOfScreen*0.02),
                         child: SizedBox(
                           height: 3,

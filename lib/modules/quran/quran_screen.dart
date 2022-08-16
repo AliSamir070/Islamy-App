@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:islamy_app/shared/components/componenets/components.dart';
 import 'package:islamy_app/shared/components/styles/styles.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QuranScreen extends StatelessWidget {
   List<String> suraNames = [
@@ -41,7 +42,7 @@ class QuranScreen extends StatelessWidget {
                   children: [
                     Divider(
                       thickness: 3,
-                      color: AppStyle.baseColor,
+                      color: AppStyle.lightbaseColor,
                       height: 0,
                     ),
                     Row(
@@ -51,14 +52,14 @@ class QuranScreen extends StatelessWidget {
                           alignment: Alignment.center,
                           width:widthOfScreen*0.5,
                           child: Text(
-                              'Verses Number',
+                              '${AppLocalizations.of(context)?.versenumber}',
                               style: TextStyle(
                                 fontSize: 25
                               ),
                           ),
                         ),
                         Container(
-                          color: AppStyle.baseColor,
+                          color: AppStyle.lightbaseColor,
                           child: SizedBox(
                             height: heightOfScreen*0.05,
                             width: 4,
@@ -68,7 +69,7 @@ class QuranScreen extends StatelessWidget {
                           alignment: Alignment.center,
                           width:widthOfScreen*0.45,
                           child: Text(
-                              'Sura Name',
+                              '${AppLocalizations.of(context)?.suraname}',
                               style: TextStyle(
                                 fontSize: 25
                               ),
@@ -78,7 +79,7 @@ class QuranScreen extends StatelessWidget {
                     ),
                     Divider(
                       thickness: 3,
-                      color: AppStyle.baseColor,
+                      color: AppStyle.lightbaseColor,
                       height: 0,
                     ),
                     Expanded(

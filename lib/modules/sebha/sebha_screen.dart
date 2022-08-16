@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:islamy_app/providers/local_provider.dart';
 import 'package:islamy_app/shared/components/styles/styles.dart';
+import 'package:provider/provider.dart';
 
 class SebhaScreen extends StatefulWidget {
 
@@ -16,7 +18,7 @@ class _SebhaScreenState extends State<SebhaScreen> with SingleTickerProviderStat
   double beginAngle = 0;
   double endAngle = 0.25;
 
-
+  late LocaleProvider provider;
   @override
   void initState() {
     controller = AnimationController(vsync: this,duration: Duration(seconds: 1));
@@ -25,6 +27,7 @@ class _SebhaScreenState extends State<SebhaScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     double heightOfScreen = MediaQuery.of(context).size.height;
     double widthOfScreen = MediaQuery.of(context).size.width;
     return Container(
@@ -41,7 +44,9 @@ class _SebhaScreenState extends State<SebhaScreen> with SingleTickerProviderStat
                   top: 0.0,
                   right: widthOfScreen*0.15,
                   child: Image(
-                    image: AssetImage('assets/images/head_of_seb7a.png'),
+                    image: AssetImage(provider.mode==ThemeMode.light?'assets/images/head_of_seb7a.png':'assets/images/dark_head_of_seb7a.png'),
+                    width: widthOfScreen*0.19,
+                    height: 0.14*heightOfScreen,
                   ),
                 ),
                 Padding(
@@ -52,8 +57,30 @@ class _SebhaScreenState extends State<SebhaScreen> with SingleTickerProviderStat
                       child: child,
                     ),
                     animation: animation,
-                    child: Image(
-                        image: AssetImage('assets/images/body_of_seb7a.png')
+                    child: GestureDetector(
+
+                      onTap: (){
+                        controller.forward(from: 0);
+                        setState((){
+                          if(tsbehatCounter<33){
+                            tsbehatCounter++;
+                          }else{
+                            tsbehatCounter = 0;
+                            if(tsbehatIndex<3){
+                              tsbehatIndex++;
+                            }else{
+                              tsbehatIndex = 0;
+                            }
+
+                          }
+                          setRotaion(0.25);
+                        });
+                      },
+                      child: Image(
+                          image: AssetImage(provider.mode==ThemeMode.light?'assets/images/body_of_seb7a.png':'assets/images/dark_body_of_seb7a.png'),
+                          height: heightOfScreen*0.3,
+                          width: widthOfScreen*0.62,
+                      ),
                     ),
                   ),
                 ),
@@ -65,9 +92,7 @@ class _SebhaScreenState extends State<SebhaScreen> with SingleTickerProviderStat
           ),
           Text(
             'عدد التسبيحات',
-            style: TextStyle(
-              fontSize: 30
-            ),
+            style: Theme.of(context).textTheme.displayMedium,
           ),
           SizedBox(
             height: heightOfScreen*0.025,
@@ -75,53 +100,28 @@ class _SebhaScreenState extends State<SebhaScreen> with SingleTickerProviderStat
           Container(
             padding: EdgeInsets.symmetric(vertical: heightOfScreen*0.031,horizontal: widthOfScreen*0.05),
             decoration: BoxDecoration(
-              color: AppStyle.baseColor.withOpacity(0.57),
+              color: provider.mode==ThemeMode.light?AppStyle.lightbaseColor.withOpacity(0.57):AppStyle.darkaccentColor.withOpacity(0.57),
               borderRadius: BorderRadius.circular(30)
               
             ),
             child: Text(
               tsbehatCounter.toString(),
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 30
-              ),
+              style: Theme.of(context).textTheme.bodySmall
             ),
           ),
           SizedBox(
             height: heightOfScreen*0.015,
           ),
-          ElevatedButton(
-              onPressed: (){
-                controller.forward(from: 0);
-                setState((){
-                  if(tsbehatCounter<33){
-                    tsbehatCounter++;
-                  }else{
-                    tsbehatCounter = 0;
-                    if(tsbehatIndex<3){
-                      tsbehatIndex++;
-                    }else{
-                      tsbehatIndex = 0;
-                    }
-
-                  }
-                  setRotaion(0.25);
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary: AppStyle.baseColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)
-                )
-              ),
-              child: Text(
-                tsbehat[tsbehatIndex],
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold
-                ),
-              )
+          Container(
+            padding: EdgeInsetsDirectional.all(10),
+            decoration: BoxDecoration(
+                color: provider.mode==ThemeMode.light?AppStyle.lightbaseColor:AppStyle.darkbaseColor,
+                borderRadius: BorderRadius.circular(25)
+            ),
+            child: Text(
+              tsbehat[tsbehatIndex],
+              style: Theme.of(context).textTheme.headlineMedium
+            ),
           )
         ],
       ),
@@ -131,7 +131,5 @@ class _SebhaScreenState extends State<SebhaScreen> with SingleTickerProviderStat
     animation = Tween<double>(begin: beginAngle , end: endAngle).animate(controller);
     beginAngle+=degrees;
     endAngle+=degrees;
-    print(beginAngle);
-    print(endAngle);
   }
 }

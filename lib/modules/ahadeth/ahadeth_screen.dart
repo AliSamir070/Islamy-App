@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:islamy_app/modules/ahadeth/ahadeth_view_screen.dart';
 
 import '../../shared/components/styles/styles.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AhadethScreen extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _AhadethScreenState extends State<AhadethScreen> {
                 children: [
                   Divider(
                     thickness: 3,
-                    color: AppStyle.baseColor,
+                    color: AppStyle.lightbaseColor,
                     height: 0,
                   ),
                   Container(
@@ -50,7 +51,7 @@ class _AhadethScreenState extends State<AhadethScreen> {
                         vertical: heightOfScreen * 0.013),
                     alignment: Alignment.center,
                     child: Text(
-                      'Ahadeth',
+                      '${AppLocalizations.of(context)?.ahadeth}',
                       style: TextStyle(
                           fontSize: 25
                       ),
@@ -58,7 +59,7 @@ class _AhadethScreenState extends State<AhadethScreen> {
                   ),
                   Divider(
                     thickness: 3,
-                    color: AppStyle.baseColor,
+                    color: AppStyle.lightbaseColor,
                     height: 0,
                   ),
                   Expanded(
