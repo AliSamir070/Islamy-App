@@ -1,9 +1,12 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:islamy_app/modules/quran/quran_view_screen.dart';
 import 'package:islamy_app/providers/local_provider.dart';
 import 'package:islamy_app/shared/components/styles/styles.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../models/Radios.dart';
 
 class SuraVerse extends StatelessWidget {
   String verseNumber;
@@ -115,3 +118,60 @@ class LocaleBottomSheet extends StatelessWidget{
     );
   }
 }
+
+class RadioController extends StatelessWidget {
+  Radios radio ;
+  AudioPlayer audioPlayer;
+  RadioController({required this.radio , required this.audioPlayer});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+              radio.name!,
+            style: Theme.of(context).textTheme.displayMedium,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: (){
+                    play();
+                  },
+                  icon: Icon(
+                    Icons.play_arrow
+                  ),
+                  iconSize: 30,
+              ),
+              SizedBox(width: 10,),
+              IconButton(
+                  onPressed: (){
+                    pause();
+                  },
+                  icon: Icon(
+                      Icons.pause
+                  ),
+                  iconSize: 30,
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  play()async{
+    await audioPlayer.play(radio.radioUrl!);
+  }
+  pause() async{
+    await audioPlayer.pause();
+  }
+}
+
