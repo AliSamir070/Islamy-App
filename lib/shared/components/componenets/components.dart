@@ -123,9 +123,10 @@ class RadioController extends StatelessWidget {
   Radios radio ;
   AudioPlayer audioPlayer;
   RadioController({required this.radio , required this.audioPlayer});
-
+  late LocaleProvider provider;
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
       width: MediaQuery.of(context).size.width,
@@ -149,6 +150,7 @@ class RadioController extends StatelessWidget {
                     Icons.play_arrow
                   ),
                   iconSize: 30,
+                color: provider.mode == ThemeMode.light?Colors.black:Colors.white,
               ),
               SizedBox(width: 10,),
               IconButton(
@@ -159,6 +161,7 @@ class RadioController extends StatelessWidget {
                       Icons.pause
                   ),
                   iconSize: 30,
+                  color: provider.mode == ThemeMode.light?Colors.black:Colors.white,
               )
             ],
           )
